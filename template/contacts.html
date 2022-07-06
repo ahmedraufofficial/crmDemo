@@ -1,0 +1,63 @@
+
+{% extends "base.html" %} 
+
+{% block content %}
+<title>Lighthouse - Contacts</title>
+<section style="background-image: url(/static/images/all_bg.jpg); background-repeat: no-repeat;background-attachment: fixed;background-size: cover; min-height: 100vh; max-height: 100%;">
+  <div style="min-height: 100vh; max-height: 100%;background-color: rgba(0, 0, 0, 0.5);">
+    <div class="container" style="padding: 10px; ">
+      <br/>
+      <div id="toolbar">
+        {% if current_user.export == True %}
+        <button onclick="get_check('contacts')" class="btn btn-primary">Export</button>
+        {% endif %}
+        <a id="download" href="">Download</a>
+      </div>
+      <table
+        id="table"
+        data-toggle="true"
+        class="unselectable oswald"
+        data-toolbar="#toolbar"
+        data-search="true"
+        data-show-columns="true"
+        data-pagination="true"
+        data-height="500"
+        data-page-size="25"
+        data-page-list="[25, 50, 100, 200, 1000, All]">
+      </table>
+    </div>
+
+    <div class="container">
+      <a href="/add_contact" class="btn btn-primary">Add</a>
+      </div>
+      <br>
+      </div>
+</section>
+{% endblock %}
+
+
+{% block scripts %}
+<script type='text/javascript'>
+    $(window).on('load',(function(){
+      
+    var columns = {{columns|tojson}};
+    var data = {{data|tojson}};
+
+
+      $(function() {
+        $('#table').bootstrapTable({ 
+          data: data.reverse() ,
+          columns: columns,
+        });
+
+      });
+
+    }));
+  </script>
+  <style type='text/css'>
+    .row-index {
+      width: 50px;
+      display: inline-block;
+    }
+ </style>
+{% endblock %}

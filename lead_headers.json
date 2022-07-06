@@ -1,0 +1,73 @@
+{"headers":
+  [
+    {
+      "field": "state",
+      "checkbox": "true"
+    },
+    {
+     "field": "edit",
+     "title": "OPTIONS",
+     "sortable": "False"
+   },
+    {
+      "field": "refno",  
+      "title": "REF NO", 
+      "sortable": "True"
+    },
+    {
+      "field": "contact_name",
+      "title": "CONTACT",
+      "sortable": "True"
+    },
+    {
+      "field": "contact_number",
+      "title": "NUMBER",
+      "sortable": "True"
+    },
+    {
+      "field": "agent",
+      "title": "AGENT",
+      "sortable": "True"
+    },
+    {
+      "field": "enquiry_date",
+      "title": "ENQUIRY DATE",
+      "sortable": "True"
+    },
+    {
+      "field": "created_date",
+      "title": "CREATED DATE",
+      "sortable": "True"
+    },
+    {
+      "field": "lastupdated",
+      "title": "LAST UPDATED",
+      "sortable": "True"
+    },
+    {
+      "field": "lead_type",
+      "title": "TYPE",
+      "sortable": "True"
+    },
+    {
+      "field": "created_by",
+      "title": "CREATED BY",
+      "sortable": "True"
+    },
+    {
+      "field": "locationtext",
+      "title": "LOCATION",
+      "sortable": "True"
+    },
+    {
+      "field": "status",
+      "title": "STATUS",
+      "sortable": "True"
+    },
+    {
+      "field": "sub_status",
+      "title": "SUB STATUS",
+      "sortable": "True"
+    }
+  ]
+}

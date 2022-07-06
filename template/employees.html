@@ -1,0 +1,176 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<title>Lighthouse - HR</title>
+<section style="background-image: url(/static/images/all_bg.jpg); background-repeat: no-repeat;background-attachment: fixed;background-size: cover;min-height: 100vh; max-height: 100%;">
+  <div style="min-height: 100vh; max-height: 100%;width: 100%;background-color: rgba(0, 0, 0, 0.5);">
+<br>
+
+    <div class="container-fluid" style="padding: 10px;">
+      <br/>
+      <div id="toolbar">
+        {% if current_user.export == True %}
+        <!--button onclick="get_check('leads')" class="btn btn-primary">Export</button-->
+        {% endif %}
+        <!--a id="download" href="">Download</a-->
+        {% if current_user.viewall == True %}
+        <button id="all_data" class="btn btn-danger" style="margin-left: 10px; color: white;">All</button>
+        {% endif %}
+      </div>
+      <table
+        id="table"
+        data-toggle="true"
+        class="unselectable oswald"
+        data-toolbar="#toolbar"
+        data-search="true"
+        data-show-columns="true"
+        data-pagination="true"
+        data-height="750"
+        data-page-size="25"
+        data-page-list="[25, 50, 100, 200, All]">
+      </table>
+    </div>
+
+    <div class="container-fluid">
+    <a href="/add_employee" class="btn btn-primary">Add Employee</a>
+    <a href="/cloudstorage/hr" class="btn btn-info">Access Storage</a>
+    </div>
+    <br>
+    </div>
+    </section>
+
+    
+<!--details Modal-->
+<div class="modal" id="detailsModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title oswald">ADDITIONAL DETAILS</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container unselectable oswald" id="notes" style="background-color:rgba(0, 0, 0, 0.2);font-family: 'Oswald';">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <div id="notetoolbar">
+                <h5> </h5>
+              </div>
+                <table id="detailstable"        
+                data-toggle="true"
+                data-toolbar="#detailstoolbar"
+                class="oswald"
+                data-search="true"
+                data-show-columns="true"
+                data-pagination="true"
+                data-height="350"
+                style="font-size: 10pt;">
+                  <thead>
+                      <tr>
+                          <th data-field="date">DATE</th>
+                          <th data-field="time">TIME</th>
+                          <th data-field="detail">DETAIL</th>
+                          <th data-field="value">VALUE</th>
+                          <th data-field="options">OPTIONS</th>
+                      </tr>
+                  </thead>
+              </table>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-11">
+              <input type="hidden" id="list_id">
+              <div class="row">
+              <div class="col">
+               <p style="color: white;">Detail</p> 
+              <input class="form-control" type="text" id="detail">
+              </div>
+              <div class="col">
+                <p style="color: white;">Value</p> 
+                <input class="form-control" type="text" id="value">
+              </div>
+
+            </div>
+              
+              <button onclick="post_detail()" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;">Post</button>
+
+            </div>
+          </div>
+          </div>
+          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
+
+
+{% block scripts %}
+<script type='text/javascript'>
+
+function view_details(x){
+  fetch('/all_notes/'+x).then(function(response){
+    response.json().then(function(data){
+      $('#list_id').val(x)
+      var jsonData = data.notes
+      console.log(jsonData)
+      $(function () {
+                $('#detailstable').bootstrapTable('destroy')
+                $('#detailstable').bootstrapTable({data: jsonData});
+                document.getElementById('detail').value = ''
+                document.getElementById('value').value = ''
+                });
+    })
+  })
+}
+
+function post_detail(){
+      var list_id = document.getElementById('list_id').value;
+      var detail = document.getElementById('detail').value;
+      var val = document.getElementById('value').value;
+      fetch('/post_detail/'+list_id+'/'+detail+'/'+val).then(function(response){
+            response.json().then(function(){
+              view_details(list_id)
+            })
+        })
+      };
+
+
+
+
+$(window).on('load',(function(){      
+    var columns = {{columns|tojson}};
+    var data = {{data|tojson}};
+
+      $(function() {
+        $('#table').bootstrapTable({ 
+          data: data,
+          columns: columns,
+        });
+       
+      });
+
+    }));
+  </script>
+
+  <style type='text/css'>
+    .row-index {
+      width: 50px;
+      display: inline-block;
+    }
+    body {
+  overflow-x: hidden;
+}
+
+  </style>
+{% endblock %}
